@@ -1,0 +1,67 @@
+{
+  "domainCategory": "AI & Automation",
+  "subjectiveTechnologyElement": "DataSources",
+  "sections": [
+    {
+      "type": "splitList",
+      "title": "Anthropic Claude",
+      "text": "OnDemand data source for Anthropic Claude API interactions.",
+      "image": {
+        "src": "/subjective_anthropic_claude_datasource/icon.svg",
+        "alt": "Anthropic Claude icon"
+      },
+      "list": [
+        "Connection type: ON_DEMAND",
+        "Config fields: connection_name, api_key, model, temperature, max_tokens, system_prompt, api_base_url, timeout",
+        "Output: Returns a model response for each incoming prompt (on-demand)."
+      ]
+    },
+    {
+      "type": "example",
+      "title": "Typical workflow",
+      "intro": "Configure Anthropic Claude with the connection fields and run it as part of a BrainBoost pipeline.",
+      "cards": [
+        {
+          "title": "Connect",
+          "text": "Provide connection_name, api_key, model, temperature, max_tokens, system_prompt, api_base_url, timeout in the connection form."
+        },
+        {
+          "title": "Fetch",
+          "text": "Run `fetch()` to ingest, transform, or stream data."
+        },
+        {
+          "title": "Consume",
+          "text": "Use the emitted items in downstream indexing, search, or automation steps."
+        }
+      ]
+    },
+    {
+      "type": "faq",
+      "title": "FAQ",
+      "items": [
+        {
+          "q": "What do I need to configure?",
+          "a": "At minimum: connection_name, api_key, model, temperature, max_tokens, system_prompt, api_base_url, timeout. Additional fields may be optional depending on your use case."
+        },
+        {
+          "q": "What does it output?",
+          "a": "Returns a model response for each incoming prompt (on-demand)."
+        },
+        {
+          "q": "Where does the data go?",
+          "a": "Outputs are emitted to downstream subscribers in the BrainBoost pipeline. Some datasources also write artifacts (context files, catalogs, or exports) locally based on your configuration."
+        }
+      ]
+    },
+    {
+      "type": "finalCta",
+      "title": "Ready to use Anthropic Claude?",
+      "text": "Add it to your BrainBoost pipeline and start ingesting.",
+      "primaryCta": {
+        "label": "Get Subjective Client",
+        "href": "/subjective-client-download"
+      },
+      "subtext": "Run this datasource locally with your own credentials and storage."
+    }
+  ]
+}
