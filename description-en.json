@@ -1,4 +1,5 @@
 {
+  "description": "On-demand Anthropic Claude connector supporting model, temperature, token, and system prompt settings for prompt-driven responses and automation tasks.",
   "domainCategory": "AI & Automation",
   "subjectiveTechnologyElement": "DataSources",
   "publisher": "BrainBoost Ltd.",
@@ -9,7 +10,7 @@
     {
       "type": "splitList",
       "title": "Anthropic Claude",
-      "text": "OnDemand data source for Anthropic Claude API interactions.",
+      "text": "On-demand Anthropic Claude connector supporting model, temperature, token, and system prompt settings for prompt-driven responses and automation tasks.",
       "image": {
         "src": "/subjective_anthropic_claude_datasource/icon.svg",
         "alt": "Anthropic Claude icon"
