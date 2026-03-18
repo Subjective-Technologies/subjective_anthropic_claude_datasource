@@ -14,31 +14,58 @@ class SubjectiveAnthropicClaudeDataSource(SubjectiveOnDemandDataSource):
     for text generation and conversation.
     """
 
-    def __init__(self, name=None, session=None, dependency_data_sources=None,
-                 subscribers=None, params=None):
-        super().__init__(
-            name=name,
-            session=session,
-            dependency_data_sources=dependency_data_sources,
-            subscribers=subscribers,
-            params=params
-        )
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
-        # Connection settings
-        self.connection_name = self.params.get("connection_name", "Claude Connection")
-        self.api_key = self.params.get("api_key", "")
-        self.model = self.params.get("model", "claude-sonnet-4-5")
+        # Read from v2 connection data first, then fall back to v1 params.
+        conn = getattr(self, "_connection", {}) or {}
+
+        self.api_key = conn.get("api_key") or self.params.get("api_key", "")
+        self.model = conn.get("model") or self.params.get("model", "claude-sonnet-4-5")
         self.temperature = self.params.get("temperature", 0.7)
         self.max_tokens = self.params.get("max_tokens", 4096)
-        self.system_prompt = self.params.get("system_prompt", "")
-        self.api_base_url = self.params.get("api_base_url", "https://api.anthropic.com")
+        self.system_prompt = conn.get("system_prompt") or self.params.get("system_prompt", "")
+        self.api_base_url = conn.get("api_base_url") or self.params.get("api_base_url", "https://api.anthropic.com")
         self.timeout = self.params.get("timeout", 60)
-        self.auto_install_dependencies = bool(self.params.get("auto_install_dependencies", False))
+        self.auto_install_dependencies = bool(
+            conn.get("auto_install_dependencies") or self.params.get("auto_install_dependencies", False)
+        )
         self._anthropic_available = False
         self._anthropic_import_error = None
 
         self._normalize_params()
         self._check_dependency()
+
+    @classmethod
+    def connection_schema(cls):
+        return {
+            "api_key": {
+                "type": "password",
+                "label": "API Key",
+                "required": True,
+                "placeholder": "sk-ant-...",
+            },
+            "model": {
+                "type": "select",
+                "label": "Model",
+                "options": [
+                    "claude-sonnet-4-5",
+                    "claude-opus-4-5",
+                    "claude-haiku-4-5",
+                ],
+                "default": "claude-sonnet-4-5",
+            },
+            "api_base_url": {
+                "type": "url",
+                "label": "API Base URL",
+                "default": "https://api.anthropic.com",
+            },
+            "system_prompt": {
+                "type": "textarea",
+                "label": "System Prompt",
+                "description": "Optional system prompt sent with every request",
+            },
+        }
 
     def _normalize_params(self) -> None:
         # Ensure sane defaults when upstream config passes zero/invalid values.
